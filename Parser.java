@@ -6,8 +6,8 @@ public class Parser{
 		lexer = this.lexer;
 	}
 
-	public void parse(){
+	public int parse(){
 		//do stuff
-		return;
+		return 3;
 	}
 }
