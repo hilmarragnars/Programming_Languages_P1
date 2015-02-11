@@ -8,5 +8,10 @@ public class Compiler{
 		myParser.parse();
 
 		Token t = myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
 	}
 }

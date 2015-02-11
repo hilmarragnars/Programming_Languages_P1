@@ -26,10 +26,11 @@ public class Lexer{
 	public Token nextToken() {
 
 		String inputSub = input.substring(position, position + 1);
-		StdOut.print(input.length());
+		//StdOut.print(inputSub);
+		position++;
 
 
-		StdOut.print(input);
+		StdOut.print(inputSub + "\n");
 
 		//if there is a whitespace nothing is returned.
 		/*if (inputSub.equals(" ")) {
@@ -40,6 +41,7 @@ public class Lexer{
 		if(isAlpha(inputSub)) {
 
 			StringBuilder str = new StringBuilder();
+			str.append(inputSub);
 		
 			while(isAlpha(input.substring(position, position + 1))) {
 
@@ -60,6 +62,7 @@ public class Lexer{
 		else if(isDigit(inputSub)) {
 
 			StringBuilder str = new StringBuilder();
+			str.append(inputSub);
 
 			while(isDigit(input.substring(position, position + 1))) {
 
