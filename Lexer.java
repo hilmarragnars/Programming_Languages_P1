@@ -11,7 +11,7 @@ public class Lexer{
 	String input;
 
 	public Lexer(){
-		 
+
 		 position = 0;
 
 		 try {
@@ -27,9 +27,15 @@ public class Lexer{
 
 	public Token nextToken() {
 
-		if(isAlpha(input.substring(0, 1))) {
-			StdOut.println("jei, bókstafur");
-			return new Token(TokenCode.ID, input);
+		if(isAlpha(input.substring(position, position + 1))) {
+			StringBuilder str = new StringBuilder();
+			while(isAlpha(input.substring(position, position + 1))) {
+				str.append(input.substring(position, position + 1));
+				position++;
+				StdOut.print(".");
+			}
+
+			return new Token(TokenCode.ID, str.toString());
 		}
 
 		return new Token(TokenCode.ID, input);
