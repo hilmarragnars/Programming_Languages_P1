@@ -10,13 +10,26 @@ public class Lexer{
 
 	String input;
 
+	String code;
+
 	public Lexer(){
 
 		 position = 0;
 
 		 try {
 		 	in = new BufferedReader (new InputStreamReader (System.in));
-		 	input = in.readLine();
+		 	code = in.readLine();
+
+		 	StringBuilder sb = new StringBuilder();
+
+		 	sb.append(code);
+
+		 	while(code != null) {
+		 		code = in.readLine();
+		 		sb.append(code);
+		 	}
+
+		 	input = sb.toString();
 		 }
 		 catch(IOException e) {
 		 	//dostuff
@@ -24,6 +37,10 @@ public class Lexer{
 	}
 
 	public Token nextToken() {
+
+		if (input.substring(position, position + 1).equals(" ")) {
+			position++;			
+		}
 
 		String inputSub = input.substring(position, position + 1);
 		//StdOut.print(inputSub);
@@ -33,10 +50,7 @@ public class Lexer{
 		StdOut.print(inputSub + "\n");
 
 		//if there is a whitespace nothing is returned.
-		/*if (inputSub.equals(" ")) {
-			position++;
-			inputSub = input.substring(position, position + 1);			
-		}*/		
+				
 
 		if(isAlpha(inputSub)) {
 

@@ -13,5 +13,17 @@ public class Compiler{
 		myLexer.nextToken();
 		myLexer.nextToken();
 		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
 	}
 }
