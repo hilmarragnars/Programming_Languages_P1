@@ -21,27 +21,35 @@ public class Lexer{
 		 catch(IOException e) {
 		 	//dostuff
 		 }
-		 
-
 	}
 
 	public Token nextToken() {
 
 		String inputSub = input.substring(position, position + 1);
+		StdOut.print(input.length());
 
-		if(isAlpha(input.substring(position, position + 1))) {
+
+
+
+		//if there is a whitespace nothing is returned.
+		if (inputSub.equals(" ")) {
+			position++;
+			inputSub = input.substring(position, position + 1);			
+		}		
+
+		if(isAlpha(inputSub)) {
 
 			StringBuilder str = new StringBuilder();
 		
 			while(isAlpha(input.substring(position, position + 1))) {
 
 				str.append(input.substring(position, position + 1));
-				position++;
-				StdOut.print("i"); //bara test til að checka 
+	
 			}
 
 			return new Token(TokenCode.ID, str.toString());
 		}
+
 		else if(inputSub.equals("=")) {
             return new Token(TokenCode.ASSIGN, inputSub);
         }
@@ -53,6 +61,15 @@ public class Lexer{
     	}
     	else if(inputSub.equals("-")) {
             return new Token(TokenCode.MINUS, inputSub);
+    	}
+    	else if(inputSub.equals("(")){
+    		return new Token(TokenCode.LPAREN, inputSub);
+    	}
+    	else if(inputSub.equals(")")){
+    		return new Token(TokenCode.RPAREN, inputSub);
+    	}
+    	else if(inputSub.equals(";")){
+    		return new Token(TokenCode.SEMICOL, inputSub);
     	}
 		return new Token(TokenCode.ID, input);
 	}

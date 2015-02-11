@@ -1,13 +1,15 @@
 public class Parser{
 
 	private Lexer lexer;
-	//private Token currToken;
+	private Token currToken;
+
 	public Parser(Lexer lexer){
 		lexer = this.lexer;
+		//currToken = this.lexer.nextToken();
 	}
 
-	public int parse(){
+	public void parse(){
 		//do stuff
-		return 3;
+		return;
 	}
 }

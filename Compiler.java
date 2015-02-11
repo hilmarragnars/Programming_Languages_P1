@@ -7,7 +7,9 @@ public class Compiler{
 		Parser myParser = new Parser(myLexer);
 		myParser.parse();
 
-		Token foo = myLexer.nextToken();
-		
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
+		myLexer.nextToken();
 	}
 }
