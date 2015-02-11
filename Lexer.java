@@ -27,17 +27,33 @@ public class Lexer{
 
 	public Token nextToken() {
 
+		String inputSub = input.substring(position, position + 1);
+
 		if(isAlpha(input.substring(position, position + 1))) {
+
 			StringBuilder str = new StringBuilder();
+		
 			while(isAlpha(input.substring(position, position + 1))) {
+
 				str.append(input.substring(position, position + 1));
 				position++;
-				StdOut.print(".");
+				StdOut.print("i"); //bara test til að checka 
 			}
 
 			return new Token(TokenCode.ID, str.toString());
 		}
-
+		else if(inputSub.equals("=")) {
+            return new Token(TokenCode.ASSIGN, inputSub);
+        }
+		else if(inputSub.equals("+")) {
+            return new Token(TokenCode.PLUS, inputSub);
+        }
+        else if(inputSub.equals("*")) {
+            return new Token(TokenCode.MULT, inputSub);
+    	}
+    	else if(inputSub.equals("-")) {
+            return new Token(TokenCode.MINUS, inputSub);
+    	}
 		return new Token(TokenCode.ID, input);
 	}
 
