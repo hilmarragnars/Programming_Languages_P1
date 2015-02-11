@@ -29,13 +29,13 @@ public class Lexer{
 		StdOut.print(input.length());
 
 
-
+		StdOut.print(input);
 
 		//if there is a whitespace nothing is returned.
-		if (inputSub.equals(" ")) {
+		/*if (inputSub.equals(" ")) {
 			position++;
 			inputSub = input.substring(position, position + 1);			
-		}		
+		}*/		
 
 		if(isAlpha(inputSub)) {
 
@@ -44,10 +44,31 @@ public class Lexer{
 			while(isAlpha(input.substring(position, position + 1))) {
 
 				str.append(input.substring(position, position + 1));
+				position++;
 	
 			}
 
+			if(str.toString().equals("print")) {
+				return new Token(TokenCode.PRINT, str.toString());	
+			}
+			else if(str.toString().equals("end")) {
+				return new Token(TokenCode.END, str.toString());	
+			}
+
 			return new Token(TokenCode.ID, str.toString());
+		}
+		else if(isDigit(inputSub)) {
+
+			StringBuilder str = new StringBuilder();
+
+			while(isDigit(input.substring(position, position + 1))) {
+
+				str.append(input.substring(position, position + 1));
+				position++;
+			}
+
+			return new Token(TokenCode.INT, str.toString());
+
 		}
 
 		else if(inputSub.equals("=")) {
@@ -71,10 +92,23 @@ public class Lexer{
     	else if(inputSub.equals(";")){
     		return new Token(TokenCode.SEMICOL, inputSub);
     	}
-		return new Token(TokenCode.ID, input);
+		else {
+			return new Token(TokenCode.ERROR, "");
+		}
 	}
 
-	public boolean isAlpha(String name) {
-    	return name.matches("[a-zA-Z]+");
+	private boolean isAlpha(String str) {
+    	return str.matches("[a-zA-Z]+");
+	}
+
+	private boolean isDigit(String str) {
+		try {
+			Integer.parseInt(str);
+		}
+		catch(NumberFormatException e) {
+			return false;
+		}
+
+		return true;
 	}
 }
