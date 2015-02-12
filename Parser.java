@@ -19,18 +19,60 @@ public class Parser{
 		if (currToken.tCode == TokenCode.ID) {
 			currToken = lexer.nextToken();
 			if(currToken.tCode != TokenCode.ASSIGN){
-				
+				syntaxError();
+			}
+			else {
+				expr();
 			}
 		}
 	}
 	private void expr(){
-		//do stuff
+
+		term();
+
+		currToken = lexer.nextToken();
+
+		if(currToken.tCode == TokenCode.PLUS) {
+
+			expr();
+		}
+		else if(currToken.tCode == TokenCode.MINUS) {
+
+			expr();
+		}
+		else {
+			syntaxError();
+		}
 	}
 	private void term(){
-		//do stuff
+		factor();
+
+		currToken = lexer.nextToken();
+
+		if(currToken.tCode == TokenCode.MULT) {
+			term();
+		}
 	}
 	private void factor(){
-		//do stuff
+		currToken = lexer.nextToken();
+
+		if(currToken.tCode == TokenCode.INT) {
+			return;
+		}
+		else if(currToken.tCode == TokenCode.ID) {
+
+		}
+		else if(currToken.tCode == TokenCode.LPAREN){
+			expr();
+
+			currToken = lexer.nextToken();
+
+			if(currToken.tCode == TokenCode.RPAREN) {
+				//dostuff
+			}
+
+		}
+
 	}
 	private void syntaxError(){
 		print();
