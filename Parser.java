@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Parser{
 
 	private Lexer lexer;
@@ -5,7 +7,7 @@ public class Parser{
 
 	public Parser(Lexer lexer){
 		this.lexer = lexer;
-		//currToken = this.lexer.nextToken();
+		currToken = this.lexer.nextToken();
 	}
 
 	public void parse(){

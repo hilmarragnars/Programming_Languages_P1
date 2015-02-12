@@ -46,9 +46,6 @@ public class Lexer{
 		//StdOut.print(inputSub);
 		position++;
 
-
-		StdOut.print(inputSub + "\n");
-
 		//if there is a whitespace nothing is returned.
 				
 
