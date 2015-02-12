@@ -4,7 +4,7 @@ public class Parser{
 	private Token currToken;
 
 	public Parser(Lexer lexer){
-		lexer = this.lexer;
+		this.lexer = lexer;
 		//currToken = this.lexer.nextToken();
 	}
 
