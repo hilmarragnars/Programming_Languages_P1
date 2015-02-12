@@ -1,4 +1,5 @@
 import java.util.*;
+import edu.princeton.cs.introcs.*;
 
 public class Parser{
 
@@ -11,10 +12,16 @@ public class Parser{
 	}
 
 	private void statements(){
-		//do stuff
+		statement();
 	}
 	private void statement(){
-		//do stuff
+
+		if (currToken.tCode == TokenCode.ID) {
+			currToken = lexer.nextToken();
+			if(currToken.tCode != TokenCode.ASSIGN){
+				
+			}
+		}
 	}
 	private void expr(){
 		//do stuff
@@ -25,8 +32,17 @@ public class Parser{
 	private void factor(){
 		//do stuff
 	}
+	private void syntaxError(){
+		print();
+		StdOut.print("Syntax Error");
+		return;
+		//quit program
+	}
+	private void print(){
+
+	}
 	public void parse(){
-		//do stuff
+		statements();
 		return;
 	}
 }
