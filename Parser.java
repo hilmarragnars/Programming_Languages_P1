@@ -13,13 +13,13 @@ public class Parser{
 
 	private void statements(){
 		if (currToken.tCode == TokenCode.END) {
-			StdOut.print("code ended\n");
+			StdOut.print("END\n");
 			return;
 		}
 		statement();
-		currToken = lexer.nextToken();
 		if (currToken.tCode == TokenCode.SEMICOL) {
-			StdOut.print("semicol in statements\n");
+			StdOut.print(";\n");
+			currToken = lexer.nextToken();
 			statements();
 		}
 		else{
@@ -33,15 +33,24 @@ public class Parser{
 
 		//currToken = lexer.nextToken();
 		if (currToken.tCode == TokenCode.ID) {
-			StdOut.print("ID in statement\n");
+			StdOut.print("ID");
 			currToken = lexer.nextToken();
 			if(currToken.tCode != TokenCode.ASSIGN){
 				StdOut.print("error in statement\n");
 				syntaxError();
 			}
 			else {
-				StdOut.print("=\n");
+				StdOut.print(" = ");
 				expr();
+			}
+		}
+		else if(currToken.tCode == TokenCode.PRINT) {
+			StdOut.print("PRINT ");
+			currToken = lexer.nextToken();
+			if(currToken.tCode == TokenCode.ID) {
+				StdOut.print("ID");
+				currToken = lexer.nextToken();
+				return;
 			}
 		}
 	}
@@ -49,20 +58,26 @@ public class Parser{
 
 		term();
 
+		if (currToken.tCode == TokenCode.SEMICOL) {
+			//StdOut.print(";\n");
+			//currToken = lexer.nextToken();
+			return;
+		}
+
 		if(currToken.tCode == TokenCode.RPAREN) {
-			StdOut.print("right paren in expr\n");
+			//StdOut.print(")");
 			return;
 		}
 
 		//currToken = lexer.nextToken();
 
 		if(currToken.tCode == TokenCode.PLUS) {
-			StdOut.print("+\n");
+			StdOut.print(" + ");
 
 			expr();
 		}
 		else if(currToken.tCode == TokenCode.MINUS) {
-			StdOut.print("-\n");
+			StdOut.print(" - ");
 			expr();
 		}
 		else {
@@ -77,14 +92,14 @@ public class Parser{
 
 
 		if (currToken.tCode == TokenCode.SEMICOL) {
-			StdOut.print("semicol in term\n");
-			currToken = lexer.nextToken();
-			statements();
+			//StdOut.print(";\n");
+			//currToken = lexer.nextToken();
+			return;
 		}
 
 
 		if(currToken.tCode == TokenCode.MULT) {
-			StdOut.print("*\n");
+			StdOut.print(" * ");
 			term();
 		}
 	}
@@ -92,21 +107,21 @@ public class Parser{
 		currToken = lexer.nextToken();
 
 		if(currToken.tCode == TokenCode.INT) {
-			StdOut.print("INT\n");
+			StdOut.print("INT");
 			return;
 		}
 		else if(currToken.tCode == TokenCode.ID) {
-			StdOut.print("ID in factor\n");
+			StdOut.print("ID");
 			return;
 		}
 		else if(currToken.tCode == TokenCode.LPAREN){
-			StdOut.print("left paren\n");
+			StdOut.print("(");
 			expr();
-			StdOut.print(currToken.tCode);
+			//StdOut.print(currToken.tCode);
 			//currToken = lexer.nextToken();
 
 			if(currToken.tCode == TokenCode.RPAREN) {
-				StdOut.print("right paren\n");
+				StdOut.print(")");
 				return;
 			}
 
