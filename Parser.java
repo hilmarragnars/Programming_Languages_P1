@@ -5,10 +5,14 @@ public class Parser{
 
 	private Lexer lexer;
 	private Token currToken;
+	private List<String> numbers;
+	private List<String> operators;
 
 	public Parser(Lexer lexer){
 		this.lexer = lexer;
 		currToken = this.lexer.nextToken();
+		numbers = new ArrayList<String>();
+		operators = new ArrayList<String>();
 	}
 
 	private void statements(){
@@ -18,37 +22,37 @@ public class Parser{
 		}
 		statement();
 		if (currToken.tCode == TokenCode.SEMICOL) {
-			StdOut.print(";\n");
 			currToken = lexer.nextToken();
 			statements();
 		}
 		else{
-			StdOut.print("error in statements\n");
 			syntaxError();
 		}
 		
 	}
 	private void statement(){
-		//StdOut.print(currToken.tCode);
 
-		//currToken = lexer.nextToken();
 		if (currToken.tCode == TokenCode.ID) {
-			StdOut.print("ID");
+
+			numbers.add(currToken.lexeme);
+
+			StdOut.println("PUSH " + currToken.lexeme);
+
 			currToken = lexer.nextToken();
+
 			if(currToken.tCode != TokenCode.ASSIGN){
-				StdOut.print("error in statement\n");
 				syntaxError();
 			}
 			else {
-				StdOut.print(" = ");
+				operators.add("ASSIGN");
 				expr();
 			}
 		}
 		else if(currToken.tCode == TokenCode.PRINT) {
-			StdOut.print("PRINT ");
+			StdOut.print("PUSH ");
 			currToken = lexer.nextToken();
 			if(currToken.tCode == TokenCode.ID) {
-				StdOut.print("ID");
+				StdOut.println(currToken.lexeme);
 				currToken = lexer.nextToken();
 				return;
 			}
@@ -59,29 +63,23 @@ public class Parser{
 		term();
 
 		if (currToken.tCode == TokenCode.SEMICOL) {
-			//StdOut.print(";\n");
-			//currToken = lexer.nextToken();
+
 			return;
 		}
 
 		if(currToken.tCode == TokenCode.RPAREN) {
-			//StdOut.print(")");
 			return;
 		}
 
-		//currToken = lexer.nextToken();
-
 		if(currToken.tCode == TokenCode.PLUS) {
-			StdOut.print(" + ");
-
+			operators.add("PLUS");
 			expr();
 		}
 		else if(currToken.tCode == TokenCode.MINUS) {
-			StdOut.print(" - ");
+			operators.add("SUB");
 			expr();
 		}
 		else {
-			StdOut.print("syntaxError in expr\n");
 			syntaxError();
 		}
 	}
@@ -92,14 +90,19 @@ public class Parser{
 
 
 		if (currToken.tCode == TokenCode.SEMICOL) {
-			//StdOut.print(";\n");
-			//currToken = lexer.nextToken();
+			Collections.reverse(operators);
+
+			for(int i = 0; i < operators.size(); i++) {
+				StdOut.println(operators.get(i));
+			}
+
+			operators.clear();
+
 			return;
 		}
 
-
 		if(currToken.tCode == TokenCode.MULT) {
-			StdOut.print(" * ");
+			operators.add("MULT");
 			term();
 		}
 	}
@@ -107,21 +110,21 @@ public class Parser{
 		currToken = lexer.nextToken();
 
 		if(currToken.tCode == TokenCode.INT) {
-			StdOut.print("INT");
+			StdOut.println("PUSH " + currToken.lexeme);
+			numbers.add(currToken.lexeme);
+
 			return;
 		}
 		else if(currToken.tCode == TokenCode.ID) {
-			StdOut.print("ID");
+			StdOut.println("PUSH " + currToken.lexeme);
+			numbers.add(currToken.lexeme);
 			return;
 		}
 		else if(currToken.tCode == TokenCode.LPAREN){
-			StdOut.print("(");
+
 			expr();
-			//StdOut.print(currToken.tCode);
-			//currToken = lexer.nextToken();
 
 			if(currToken.tCode == TokenCode.RPAREN) {
-				StdOut.print(")");
 				return;
 			}
 
@@ -129,10 +132,9 @@ public class Parser{
 
 	}
 	private void syntaxError(){
-		print();
-		StdOut.print("Syntax Error");
-		return;
-		//quit program
+		//print();
+		StdOut.println("Syntax error!");
+		System.exit(0);
 	}
 	private void print(){
 
