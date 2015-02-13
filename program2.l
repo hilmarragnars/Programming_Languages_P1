@@ -1,3 +1,4 @@
-var = 3 + ;
-print var;
-end 
+a=2*33+4*5;
+print a;
+end
+ 

@@ -1,5 +1,5 @@
 import java.util.*;
-import edu.princeton.cs.introcs.*;
+//import edu.princeton.cs.introcs.*;
 
 public class Parser{
 
@@ -7,12 +7,14 @@ public class Parser{
 	private Token currToken;
 	private List<String> numbers;
 	private List<String> operators;
+	private boolean mult;
 
 	public Parser(Lexer lexer){
 		this.lexer = lexer;
 		currToken = this.lexer.nextToken();
 		numbers = new ArrayList<String>();
 		operators = new ArrayList<String>();
+		mult = false;
 	}
 
 	private void statements(){
@@ -36,8 +38,6 @@ public class Parser{
 
 			numbers.add(currToken.lexeme);
 
-			StdOut.println("PUSH " + currToken.lexeme);
-
 			currToken = lexer.nextToken();
 
 			if(currToken.tCode != TokenCode.ASSIGN){
@@ -50,10 +50,12 @@ public class Parser{
 		}
 		else if(currToken.tCode == TokenCode.PRINT) {
 			StdOut.print("PUSH ");
+
 			currToken = lexer.nextToken();
 			if(currToken.tCode == TokenCode.ID) {
 				StdOut.println(currToken.lexeme);
 				currToken = lexer.nextToken();
+				StdOut.println("PRINT");
 				return;
 			}
 		}
@@ -72,7 +74,7 @@ public class Parser{
 		}
 
 		if(currToken.tCode == TokenCode.PLUS) {
-			operators.add("PLUS");
+			operators.add("ADD");
 			expr();
 		}
 		else if(currToken.tCode == TokenCode.MINUS) {
@@ -89,20 +91,15 @@ public class Parser{
 		currToken = lexer.nextToken();
 
 
-		if (currToken.tCode == TokenCode.SEMICOL) {
-			Collections.reverse(operators);
-
-			for(int i = 0; i < operators.size(); i++) {
-				StdOut.println(operators.get(i));
-			}
-
-			operators.clear();
-
+		if (currToken.tCode == TokenCode.SEMICOL) {	
+			printNum(mult);
+			printOp(mult);
 			return;
 		}
 
 		if(currToken.tCode == TokenCode.MULT) {
 			operators.add("MULT");
+			mult = true;
 			term();
 		}
 	}
@@ -110,21 +107,26 @@ public class Parser{
 		currToken = lexer.nextToken();
 
 		if(currToken.tCode == TokenCode.INT) {
-			StdOut.println("PUSH " + currToken.lexeme);
+
 			numbers.add(currToken.lexeme);
+			if(mult) {
+				printNum(mult);
+				printOp(mult);
+				mult = false;
+			}
 
 			return;
 		}
 		else if(currToken.tCode == TokenCode.ID) {
-			StdOut.println("PUSH " + currToken.lexeme);
 			numbers.add(currToken.lexeme);
 			return;
 		}
 		else if(currToken.tCode == TokenCode.LPAREN){
-
+			
 			expr();
 
 			if(currToken.tCode == TokenCode.RPAREN) {
+				mult = false;
 				return;
 			}
 
@@ -135,6 +137,35 @@ public class Parser{
 		//print();
 		StdOut.println("Syntax error!");
 		System.exit(0);
+	}
+
+	private void printOp(boolean mult) {
+		if(mult) {
+			for(int i = 0; i < operators.size(); i++) {
+				if(operators.get(i) == "MULT") {
+					StdOut.println("MULT");
+					operators.remove(i);
+				}
+			}
+		}
+		else {
+			Collections.reverse(operators);
+
+			for(int i = 0; i < operators.size(); i++) {
+				StdOut.println(operators.get(i));
+			}
+
+			operators.clear();
+		}
+	}
+
+	private void printNum(boolean mult) {
+
+		for(int i = 0; i < numbers.size(); i++) {
+			StdOut.println("PUSH " + numbers.get(i));
+		}
+
+		numbers.clear();
 	}
 	private void print(){
 
