@@ -7,14 +7,17 @@ public class Parser{
 	private Token currToken;
 	private List<String> numbers;
 	private List<String> operators;
-	private boolean mult;
+	private List<String> pOperators;
+	private boolean mult, paren;
 
 	public Parser(Lexer lexer){
 		this.lexer = lexer;
 		currToken = this.lexer.nextToken();
 		numbers = new ArrayList<String>();
 		operators = new ArrayList<String>();
+		pOperators = new ArrayList<String>();
 		mult = false;
+		paren = false;
 	}
 
 	private void statements(){
@@ -49,6 +52,10 @@ public class Parser{
 			}
 		}
 		else if(currToken.tCode == TokenCode.PRINT) {
+
+			if(operators.size() > 0) {
+				printOp(false, false);
+			}
 			StdOut.print("PUSH ");
 
 			currToken = lexer.nextToken();
@@ -74,11 +81,21 @@ public class Parser{
 		}
 
 		if(currToken.tCode == TokenCode.PLUS) {
-			operators.add("ADD");
+			if(paren) {
+				pOperators.add("ADD");
+			}
+			else {
+				operators.add("ADD");
+			}
 			expr();
 		}
 		else if(currToken.tCode == TokenCode.MINUS) {
-			operators.add("SUB");
+			if(paren) {
+				pOperators.add("SUB");
+			}
+			else {
+				operators.add("SUB");
+			}
 			expr();
 		}
 		else {
@@ -93,12 +110,18 @@ public class Parser{
 
 		if (currToken.tCode == TokenCode.SEMICOL) {	
 			printNum(mult);
-			printOp(mult);
+			printOp(mult, paren);
 			return;
 		}
 
 		if(currToken.tCode == TokenCode.MULT) {
-			operators.add("MULT");
+			if(paren) {
+				pOperators.add("MULT");
+			}
+			else {
+				operators.add("MULT");
+			}
+
 			mult = true;
 			term();
 		}
@@ -109,9 +132,9 @@ public class Parser{
 		if(currToken.tCode == TokenCode.INT) {
 
 			numbers.add(currToken.lexeme);
-			if(mult) {
+			if(mult && !paren) {
 				printNum(mult);
-				printOp(mult);
+				printOp(mult, paren);
 				mult = false;
 			}
 
@@ -122,11 +145,14 @@ public class Parser{
 			return;
 		}
 		else if(currToken.tCode == TokenCode.LPAREN){
-			
+			paren = true;
 			expr();
 
 			if(currToken.tCode == TokenCode.RPAREN) {
 				mult = false;
+				printNum(mult);
+				printOp(mult, paren);
+				paren = false;
 				return;
 			}
 
@@ -139,7 +165,7 @@ public class Parser{
 		System.exit(0);
 	}
 
-	private void printOp(boolean mult) {
+	private void printOp(boolean mult, boolean paren) {
 		if(mult) {
 			for(int i = 0; i < operators.size(); i++) {
 				if(operators.get(i) == "MULT") {
@@ -147,6 +173,15 @@ public class Parser{
 					operators.remove(i);
 				}
 			}
+		}
+		else if(paren) {
+			Collections.reverse(pOperators);
+
+			for(int i = 0; i < pOperators.size(); i++) {
+				StdOut.println(pOperators.get(i));
+			}
+
+			pOperators.clear();
 		}
 		else {
 			Collections.reverse(operators);

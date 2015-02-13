@@ -1,4 +1,1 @@
-a=2*33+4*5;
-print a;
-end
- 
+var=86-84+87*(96-46)*59; print var; end
