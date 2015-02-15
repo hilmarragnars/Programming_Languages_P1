@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-//import edu.princeton.cs.introcs.*;
 
 public class Lexer{
 

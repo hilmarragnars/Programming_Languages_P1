@@ -1,5 +1,3 @@
-//import edu.princeton.cs.introcs.*;
-
 public class Compiler{
 
 	public static void main(String args[]){
