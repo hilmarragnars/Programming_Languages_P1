@@ -1,2 +1,4 @@
 #!/bin/bash
-java  Compiler $1
+javac *.java
+java Compiler < "$@" | java Interpreter
+
