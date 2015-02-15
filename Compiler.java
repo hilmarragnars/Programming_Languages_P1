@@ -1,4 +1,4 @@
-import edu.princeton.cs.introcs.*;
+//import edu.princeton.cs.introcs.*;
 
 public class Compiler{
 
@@ -7,23 +7,5 @@ public class Compiler{
 		Parser myParser = new Parser(myLexer);
 		myParser.parse();
 
-		/*Token t = myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();
-		myLexer.nextToken();*/
 	}
 }

@@ -32,7 +32,12 @@ public class Interpreter{
 		 }
 	}
 
+	private void interpret
+
+
+
+
 	public static void main(String[] args) {
-        System.out.println("Hello, World");
+        
     }
 }

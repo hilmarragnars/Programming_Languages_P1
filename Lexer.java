@@ -1,6 +1,6 @@
 import java.util.*;
 import java.io.*;
-import edu.princeton.cs.introcs.*;
+//import edu.princeton.cs.introcs.*;
 
 public class Lexer{
 
@@ -38,6 +38,10 @@ public class Lexer{
 
 	public Token nextToken() {
 
+		if(position == input.length()) {
+			return new Token(TokenCode.END, "");
+		}
+
 		if (input.substring(position, position + 1).equals(" ")) {
 			position++;			
 		}
@@ -53,8 +57,12 @@ public class Lexer{
 
 			StringBuilder str = new StringBuilder();
 			str.append(inputSub);
+
+			if(input.substring(input.length() - 4, input.length()).equals("null")) {
+				input = input.substring(0, input.length() - 4);
+			}
 		
-			while(isAlpha(input.substring(position, position + 1))) {
+			while(position < input.length() && isAlpha(input.substring(position, position + 1))) {
 
 				str.append(input.substring(position, position + 1));
 				position++;
